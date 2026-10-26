@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FOOTBALL IMPOSTOR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@700;800;900&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --glow-green: #00ff88;
+            --glow-red: #ff3366;
+            --glow-gold: #ffd700;
+            --glow-blue: #00ccff;
+            --bg-dark: #0a0e1a;
+            --bg-card: #111827;
+            --bg-card-light: #1f2937;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            min-height: 100dvh;
+            overflow-x: hidden;
+            color: #e5e7eb;
+        }
+
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        .bg-pitch {
+            background: radial-gradient(ellipse at 50% 0%, #0d2818 0%, #0a0e1a 70%);
+        }
+
+        .glow-text-green {
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5), 0 0 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .glow-text-red {
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.6), 0 0 40px rgba(255, 51, 102, 0.3);
+        }
+
+        .glow-text-gold {
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0e1a;
+            font-weight: 800;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3), 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5), 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff3366, #cc1144);
+            color: #fff;
+            font-weight: 700;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.3), 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+        }
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 51, 102, 0.5), 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #1f2937, #374151);
+            color: #e5e7eb;
+            font-weight: 700;
+            border: 1px solid #374151;
+            border-radius: 16px;
+            padding: 14px 28px;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        .btn-secondary:hover {
+            border-color: #00ff88;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            color: #0a0e1a;
+            font-weight: 800;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid #1f2937;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-glow-green {
+            border-color: rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-glow-red {
+            border-color: rgba(255, 51, 102, 0.4);
+            box-shadow: 0 0 30px rgba(255, 51, 102, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #1a0a10, #111827);
+        }
+
+        .card-glow-gold {
+            border-color: rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .player-chip {
+            background: linear-gradient(135deg, #1f2937, #111827);
+            border: 1px solid #374151;
+            border-radius: 12px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        .player-chip:hover { border-color: #4b5563; }
+
+        .remove-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 51, 102, 0.2);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            color: #ff3366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .remove-btn:hover {
+            background: rgba(255, 51, 102, 0.4);
+            transform: scale(1.1);
+        }
+
+        .vote-card {
+            background: linear-gradient(135deg, #1f2937, #111827);
+            border: 2px solid #374151;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+        .vote-card:hover {
+            border-color: #ff3366;
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.2);
+            transform: translateY(-3px);
+        }
+        .vote-card:active {
+            transform: translateY(0);
+        }
+
+        .timer-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.3));
+        }
+
+        .timer-warning {
+            background: linear-gradient(135deg, #ff3366, #ff6600);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(255, 51, 102, 0.4));
+        }
+
+        .progress-ring {
+            width: 200px;
+            height: 200px;
+        }
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 6;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: center;
+        }
+
+        .input-field {
+            background: #1f2937;
+            border: 2px solid #374151;
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: #e5e7eb;
+            font-size: 1rem;
+            font-weight: 500;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #00ff88;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+        }
+        .input-field::placeholder {
+            color: #6b7280;
+        }
+
+        .screen { display: none; }
+        .screen.active { display: flex; }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #00ff88;
+        }
+
+        .alert-bar {
+            background: rgba(255, 51, 102, 0.15);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #ff6688;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translateX(5px); }
+            60% { transform: translateX(-3px); }
+            80% { transform: translateX(3px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 255, 136, 0.6); }
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 51, 102, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(255, 51, 102, 0.6); }
+        }
+
+        .animate-fade { animation: fadeIn 0.5s ease forwards; }
+        .animate-slide { animation: slideUp 0.6s ease forwards; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-pulse-red { animation: pulse-red 1.5s ease-in-out infinite; }
+
+        .football-icon::before {
+            content: "\26BD";
+            font-size: 1.2em;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #374151, transparent);
+            margin: 16px 0;
+        }
+
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            top: -20px;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            animation: confetti-fall linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+    </style>
+</head>
+<body class="bg-pitch">
+
+    <!-- ========== SCREEN 1: SQUAD SETUP ========== -->
+    <div id="screen-setup" class="screen active flex-col items-center min-h-screen px-4 py-8">
+        <div class="w-full max-w-md mx-auto flex flex-col gap-6 animate-fade">
+
+            <!-- Logo / Title -->
+            <div class="text-center pt-4 pb-2">
+                <div class="text-5xl mb-3">&#9917;</div>
+                <h1 class="font-orbitron text-3xl font-black tracking-wider text-white glow-text-green">
+                    FOOTBALL
+                </h1>
+                <h1 class="font-orbitron text-3xl font-black tracking-wider text-red-400 glow-text-red mt-1">
+                    IMPOSTOR
+                </h1>
+                <p class="text-gray-400 mt-3 text-sm font-medium tracking-wide">FIND THE FAKE FAN</p>
+            </div>
+
+            <!-- Player Input -->
+            <div class="card card-glow-green">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-bold text-white">Squad Setup</h2>
+                    <div class="badge" id="player-counter">
+                        <span>&#9917;</span>
+                        <span id="counter-text">0 / 10</span>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 mb-4">
+                    <input
+                        type="text"
+                        id="player-input"
+                        class="input-field flex-1"
+                        placeholder="Enter player name..."
+                        maxlength="20"
+                        autocomplete="off"
+                    >
+                    <button id="add-player-btn" class="btn-primary" style="padding: 14px 20px; font-size: 1.4rem; border-radius: 12px; min-width: 52px;">+</button>
+                </div>
+
+                <!-- Alert -->
+                <div id="setup-alert" class="alert-bar mb-4" style="display: none;"></div>
+
+                <!-- Player List -->
+                <div id="player-list" class="flex flex-col gap-2 mb-4 max-h-64 overflow-y-auto pr-1"></div>
+
+                <div class="divider"></div>
+
+                <button id="kickoff-btn" class="btn-primary w-full mt-2" disabled>
+                    &#9917; KICK OFF MATCH
+                </button>
+            </div>
+
+            <p class="text-center text-gray-500 text-xs tracking-wide">3 &ndash; 10 PLAYERS REQUIRED</p>
+        </div>
+    </div>
+
+    <!-- ========== SCREEN 2: PASS & ROLE REVEAL ========== -->
+    <div id="screen-reveal" class="screen flex-col items-center min-h-screen px-4 py-8">
+        <div class="w-full max-w-md mx-auto flex flex-col gap-6 animate-fade">
+
+            <div class="text-center">
+                <div class="text-4xl mb-2">&#128274;</div>
+                <h2 class="font-orbitron text-xl font-bold text-white tracking-wide">SECRET ROLE</h2>
+            </div>
+
+            <!-- Pass Prompt -->
+            <div id="pass-prompt" class="card card-glow-green text-center">
+                <p class="text-gray-400 text-sm mb-2 uppercase tracking-wider font-semibold">Pass the phone to</p>
+                <p id="current-player-name" class="text-2xl font-black text-white"></p>
+                <div class="divider"></div>
+                <button id="reveal-btn" class="btn-gold w-full">
+                    &#128065; REVEAL SECRET CARD
+                </button>
+            </div>
+
+            <!-- Role Card (hidden initially) -->
+            <div id="role-card-container" style="display: none;">
+                <!-- Impostor Card -->
+                <div id="impostor-card" class="card card-glow-red text-center animate-pulse-red" style="display: none;">
+                    <div class="text-5xl mb-3">&#128520;</div>
+                    <h3 class="font-orbitron text-2xl font-black text-red-400 glow-text-red tracking-wider">
+                        YOU ARE THE
+                    </h3>
+                    <h3 class="font-orbitron text-3xl font-black text-red-400 glow-text-red tracking-wider mt-1">
+                        IMPOSTOR
+                    </h3>
+                    <p class="text-gray-400 mt-4 text-sm">You do NOT know the secret footballer.<br>Blend in and avoid suspicion!</p>
+                    <div class="divider"></div>
+                    <button id="hide-impostor-btn" class="btn-secondary w-full">
+                        &#128064; HIDE &amp; PASS TO NEXT PLAYER
+                    </button>
+                </div>
+
+                <!-- Squad Member Card -->
+                <div id="squad-card" class="card card-glow-green text-center" style="display: none;">
+                    <div class="text-5xl mb-3">&#9989;</div>
+                    <h3 class="font-orbitron text-xl font-bold text-green-400 glow-text-green tracking-wider">
+                        SQUAD MEMBER
+                    </h3>
+                    <div class="divider"></div>
+                    <p class="text-gray-400 text-sm uppercase tracking-wider font-semibold mb-2">The Secret Footballer Is</p>
+                    <p id="secret-footballer-display" class="text-2xl font-black text-white glow-text-gold"></p>
+                    <p class="text-gray-500 mt-3 text-xs">Remember this name. Find who doesn't know it!</p>
+                    <div class="divider"></div>
+                    <button id="hide-squad-btn" class="btn-secondary w-full">
+                        &#128064; HIDE &amp; PASS TO NEXT PLAYER
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== SCREEN 3: DISCUSSION & TIMER ========== -->
+    <div id="screen-discussion" class="screen flex-col items-center min-h-screen px-4 py-8">
+        <div class="w-full max-w-md mx-auto flex flex-col gap-6 animate-fade">
+
+            <div class="text-center">
+                <div class="text-4xl mb-2">&#128483;</div>
+                <h2 class="font-orbitron text-xl font-bold text-white tracking-wide">DISCUSSION TIME</h2>
+            </div>
+
+            <!-- First Question -->
+            <div class="card card-glow-gold text-center">
+                <p class="text-gray-400 text-sm uppercase tracking-wider font-semibold mb-1">First question starts with</p>
+                <p id="first-questioner" class="text-xl font-black text-yellow-400 glow-text-gold"></p>
+            </div>
+
+            <!-- Timer -->
+            <div class="card text-center">
+                <div class="flex justify-center mb-4">
+                    <svg class="progress-ring" viewBox="0 0 200 200" id="timer-ring">
+                        <circle cx="100" cy="100" r="90" stroke="#1f2937" />
+                        <circle cx="100" cy="100" r="90" stroke="url(#timer-gradient)" id="timer-progress"
+                            stroke-dasharray="565.48" stroke-dashoffset="0" />
+                        <defs>
+                            <linearGradient id="timer-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#00ff88" />
+                                <stop offset="100%" stop-color="#00ccff" />
+                            </linearGradient>
+                            <linearGradient id="timer-gradient-warn" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff3366" />
+                                <stop offset="100%" stop-color="#ff6600" />
+                            </linearGradient>
+                        </defs>
+                        <text x="100" y="108" text-anchor="middle" fill="#e5e7eb"
+                            font-family="Orbitron, sans-serif" font-size="36" font-weight="900"
+                            id="timer-text">3:00</text>
+                    </svg>
+                </div>
+
+                <div class="flex gap-3 justify-center">
+                    <button id="timer-toggle-btn" class="btn-primary" style="padding: 12px 24px;">
+                        &#9654; START
+                    </button>
+                    <button id="timer-reset-btn" class="btn-secondary" style="padding: 12px 24px;">
+                        &#8635; RESET
+                    </button>
+                </div>
+            </div>
+
+            <button id="start-voting-btn" class="btn-danger w-full text-lg">
+                &#9888; START VOTING NOW
+            </button>
+        </div>
+    </div>
+
+    <!-- ========== SCREEN 4: VOTING ========== -->
+    <div id="screen-voting" class="screen flex-col items-center min-h-screen px-4 py-8">
+        <div class="w-full max-w-md mx-auto flex flex-col gap-6 animate-fade">
+
+            <div class="text-center">
+                <div class="text-4xl mb-2">&#128499;</div>
+                <h2 class="font-orbitron text-xl font-bold text-white tracking-wide">CAST YOUR VOTE</h2>
+                <p class="text-gray-400 text-sm mt-1">Who is the Impostor? Tap to vote!</p>
+            </div>
+
+            <div id="voting-grid" class="grid grid-cols-2 gap-3"></div>
+
+        </div>
+    </div>
+
+    <!-- ========== SCREEN 5: RESULT ========== -->
+    <div id="screen-result" class="screen flex-col items-center min-h-screen px-4 py-8">
+        <div class="w-full max-w-md mx-auto flex flex-col gap-6 animate-fade">
+
+            <!-- Result Banner -->
+            <div id="result-banner" class="card text-center">
+                <div id="result-icon" class="text-6xl mb-3"></div>
+                <h2 id="result-title" class="font-orbitron text-2xl font-black tracking-wider"></h2>
+                <p id="result-subtitle" class="text-gray-400 mt-2 text-sm"></p>
+            </div>
+
+            <!-- Reveal Info -->
+            <div class="card">
+                <div class="flex flex-col gap-4">
+                    <div class="text-center">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider font-semibold mb-1">The Impostor Was</p>
+                        <p id="reveal-impostor" class="text-xl font-black text-red-400 glow-text-red"></p>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="text-center">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider font-semibold mb-1">The Secret Footballer Was</p>
+                        <p id="reveal-footballer" class="text-xl font-black text-green-400 glow-text-green"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col gap-3">
+                <button id="next-round-btn" class="btn-primary w-full text-lg">
+                    &#9917; PLAY NEXT ROUND
+                </button>
+                <button id="back-to-squad-btn" class="btn-secondary w-full">
+                    &#128101; SQUAD SETTINGS
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Container -->
+    <div id="confetti-container" class="confetti-container"></div>
+
+
+<script>
+// ====================================================================
+//  FOOTBALLERS DATABASE - 220+ Real World-Famous Footballers
+// ====================================================================
+const FOOTBALLERS_DB = [
+    "Lionel Messi",
+    "Cristiano Ronaldo",
+    "Kylian Mbappe",
+    "Neymar Junior",
+    "Erling Haaland",
+    "Kevin De Bruyne",
+    "Mohamed Salah",
+    "Robert Lewandowski",
+    "Karim Benzema",
+    "Luka Modric",
+    "Toni Kroos",
+    "Virgil van Dijk",
+    "Sadio Mane",
+    "Harry Kane",
+    "Jude Bellingham",
+    "Vinicius Junior",
+    "Pedri Gonzalez",
+    "Gavi Paez",
+    "Bukayo Saka",
+    "Phil Foden",
+    "Marcus Rashford",
+    "Jadon Sancho",
+    "Raheem Sterling",
+    "Jack Grealish",
+    "Bruno Fernandes",
+    "Bernardo Silva",
+    "Ruben Dias",
+    "Joao Cancelo",
+    "Rodri Hernandez",
+    "Joshua Kimmich",
+    "Jamal Musiala",
+    "Florian Wirtz",
+    "Leroy Sane",
+    "Serge Gnabry",
+    "Thomas Muller",
+    "Manuel Neuer",
+    "Thibaut Courtois",
+    "Alisson Becker",
+    "Ederson Moraes",
+    "Marc-Andre ter Stegen",
+    "Jan Oblak",
+    "Gianluigi Donnarumma",
+    "Trent Alexander-Arnold",
+    "Andrew Robertson",
+    "Declan Rice",
+    "Martin Odegaard",
+    "William Saliba",
+    "Gabriel Magalhaes",
+    "Casemiro Ferreira",
+    "Federico Valverde",
+    "Eduardo Camavinga",
+    "Aurelien Tchouameni",
+    "Antoine Griezmann",
+    "Ousmane Dembele",
+    "Raphinha Dias",
+    "Ansu Fati",
+    "Ferran Torres",
+    "Jules Kounde",
+    "Ronald Araujo",
+    "Frenkie de Jong",
+    "Matthijs de Ligt",
+    "Dusan Vlahovic",
+    "Federico Chiesa",
+    "Nicolo Barella",
+    "Rafael Leao",
+    "Lautaro Martinez",
+    "Paulo Dybala",
+    "Victor Osimhen",
+    "Khvicha Kvaratskhelia",
+    "Achraf Hakimi",
+    "Theo Hernandez",
+    "Mike Maignan",
+    "Marquinhos Correa",
+    "Presnel Kimpembe",
+    "Christopher Nkunku",
+    "Randal Kolo Muani",
+    "Olivier Giroud",
+    "Hugo Lloris",
+    "Riyad Mahrez",
+    "Hakim Ziyech",
+    "Sofyan Amrabat",
+    "Yassine Bounou",
+    "Achraf Dari",
+    "Joao Felix",
+    "Diogo Jota",
+    "Ruben Neves",
+    "Joao Palhinha",
+    "Pepe Reina",
+    "Sergio Busquets",
+    "Jordi Alba",
+    "Dani Carvajal",
+    "David Alaba",
+    "Antonio Rudiger",
+    "Eder Militao",
+    "Alphonso Davies",
+    "Jonathan David",
+    "Julian Alvarez",
+    "Enzo Fernandez",
+    "Alexis Mac Allister",
+    "Angel Di Maria",
+    "Emiliano Martinez",
+    "Nicolas Otamendi",
+    "Rodrigo De Paul",
+    "Lisandro Martinez",
+    "Alejandro Garnacho",
+    "Son Heung-min",
+    "Takehiro Tomiyasu",
+    "Takefusa Kubo",
+    "Kaoru Mitoma",
+    "Daichi Kamada",
+    "Wataru Endo",
+    "Kim Min-jae",
+    "Hwang Hee-chan",
+    "Richarlison Andrade",
+    "Gabriel Jesus",
+    "Fabinho Tavares",
+    "Marquinhos Oliveira",
+    "Thiago Silva",
+    "Dani Alves",
+    "Marcelo Vieira",
+    "Zinedine Zidane",
+    "Thierry Henry",
+    "Ronaldinho Gaucho",
+    "Ronaldo Nazario",
+    "Andrea Pirlo",
+    "Paolo Maldini",
+    "David Beckham",
+    "Steven Gerrard",
+    "Frank Lampard",
+    "Wayne Rooney",
+    "Didier Drogba",
+    "Samuel Etoo",
+    "Andres Iniesta",
+    "Xavi Hernandez",
+    "Carles Puyol",
+    "Gerard Pique",
+    "Sergio Ramos",
+    "Iker Casillas",
+    "Gianluigi Buffon",
+    "Alessandro Nesta",
+    "Fabio Cannavaro",
+    "Francesco Totti",
+    "Alessandro Del Piero",
+    "Kaka Ricardo",
+    "Clarence Seedorf",
+    "Patrick Vieira",
+    "Dennis Bergkamp",
+    "Ruud van Nistelrooy",
+    "Arjen Robben",
+    "Franck Ribery",
+    "Bastian Schweinsteiger",
+    "Philipp Lahm",
+    "Miroslav Klose",
+    "Zlatan Ibrahimovic",
+    "Henrik Larsson",
+    "Ryan Giggs",
+    "Paul Scholes",
+    "Rio Ferdinand",
+    "John Terry",
+    "Ashley Cole",
+    "Michael Owen",
+    "Alan Shearer",
+    "Gary Lineker",
+    "Eric Cantona",
+    "Patrick Kluivert",
+    "Edgar Davids",
+    "Rivaldo Ferreira",
+    "Roberto Carlos",
+    "Cafu Marcos",
+    "Pele Santos",
+    "Diego Maradona",
+    "Johan Cruyff",
+    "Franz Beckenbauer",
+    "Michel Platini",
+    "Marco van Basten",
+    "George Best",
+    "Bobby Charlton",
+    "Eusebio Ferreira",
+    "Alfredo Di Stefano",
+    "Ferenc Puskas",
+    "Lev Yashin",
+    "Garrincha Santos",
+    "Gheorghe Hagi",
+    "Hristo Stoichkov",
+    "Davor Suker",
+    "Jurgen Klinsmann",
+    "Michael Ballack",
+    "Oliver Kahn",
+    "Peter Schmeichel",
+    "Edwin van der Sar",
+    "Petr Cech",
+    "Nemanja Vidic",
+    "Sergio Aguero",
+    "Robin van Persie",
+    "Luis Suarez",
+    "Edinson Cavani",
+    "James Rodriguez",
+    "David Villa",
+    "Fernando Torres",
+    "Raul Gonzalez",
+    "Cesc Fabregas",
+    "Mesut Ozil",
+    "Sami Khedira",
+    "Mats Hummels",
+    "Jerome Boateng",
+    "Neymar Santos",
+    "Thiago Alcantara",
+    "David Silva",
+    "Sergio Busquets",
+    "Yaya Toure",
+    "Claude Makelele",
+    "Michael Essien",
+    "Jay-Jay Okocha",
+    "George Weah",
+    "Roger Milla",
+    "Abedi Pele",
+    "Rashidi Yekini",
+    "Emmanuel Adebayor",
+    "Michael Obafemi",
+    "Pierre-Emerick Aubameyang",
+    "Riyad Karim Mahrez",
+    "Islam Slimani",
+    "Sadio Mane Ferreira",
+    "Andre Onana",
+    "Edouard Mendy",
+    "Thomas Partey",
+    "Mohammed Kudus",
+    "Seko Fofana",
+    "Franck Kessie",
+    "Patrice Evra",
+    "Marcel Desailly",
+    "Lilian Thuram",
+    "Laurent Blanc",
+    "Fabien Barthez",
+    "Emmanuel Petit",
+    "Robert Pires",
+    "Sylvain Wiltord"
+];
+
+// ====================================================================
+//  GAME STATE
+// ====================================================================
+const GameState = {
+    players: [],
+    impostorIndex: -1,
+    secretFootballer: "",
+    currentRevealIndex: 0,
+    isCardRevealed: false,
+    timerSeconds: 180,
+    timerInterval: null,
+    timerRunning: false,
+    firstQuestioner: "",
+    votedPlayer: "",
+    usedFootballers: [],
+    shuffledDB: [],
+    dbPointer: 0
+};
+
+// ====================================================================
+//  FISHER-YATES SHUFFLE (No repeats until full cycle)
+// ====================================================================
+function fisherYatesShuffle(arr) {
+    const shuffled = [...arr];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+function getNextFootballer() {
+    if (GameState.shuffledDB.length === 0 || GameState.dbPointer >= GameState.shuffledDB.length) {
+        GameState.shuffledDB = fisherYatesShuffle(FOOTBALLERS_DB);
+        GameState.dbPointer = 0;
+    }
+    const footballer = GameState.shuffledDB[GameState.dbPointer];
+    GameState.dbPointer++;
+    return footballer;
+}
+
+// ====================================================================
+//  DOM REFERENCES
+// ====================================================================
+const $ = (id) => document.getElementById(id);
+
+const screens = {
+    setup: $('screen-setup'),
+    reveal: $('screen-reveal'),
+    discussion: $('screen-discussion'),
+    voting: $('screen-voting'),
+    result: $('screen-result')
+};
+
+// ====================================================================
+//  SCREEN NAVIGATION
+// ====================================================================
+function showScreen(screenKey) {
+    Object.values(screens).forEach(s => s.classList.remove('active'));
+    screens[screenKey].classList.add('active');
+    screens[screenKey].scrollTo?.(0, 0);
+    window.scrollTo(0, 0);
+}
+
+// ====================================================================
+//  SCREEN 1: SQUAD SETUP
+// ====================================================================
+function updatePlayerCounter() {
+    $('counter-text').textContent = `${GameState.players.length} / 10`;
+    $('kickoff-btn').disabled = GameState.players.length < 3;
+}
+
+function renderPlayerList() {
+    const container = $('player-list');
+    container.innerHTML = '';
+    GameState.players.forEach((name, idx) => {
+        const chip = document.createElement('div');
+        chip.className = 'player-chip animate-fade';
+        chip.innerHTML = `
+            <span class="font-semibold text-white">${escapeHtml(name)}</span>
+            <button class="remove-btn" data-index="${idx}" aria-label="Remove ${escapeHtml(name)}">&times;</button>
+        `;
+        container.appendChild(chip);
+    });
+
+    container.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const index = parseInt(e.currentTarget.dataset.index);
+            GameState.players.splice(index, 1);
+            renderPlayerList();
+            updatePlayerCounter();
+            hideAlert();
+        });
+    });
+}
+
+function showAlert(msg) {
+    const alert = $('setup-alert');
+    alert.textContent = msg;
+    alert.style.display = 'block';
+    alert.classList.remove('animate-fade');
+    void alert.offsetWidth;
+    alert.classList.add('animate-fade');
+}
+
+function hideAlert() {
+    $('setup-alert').style.display = 'none';
+}
+
+function addPlayer() {
+    const input = $('player-input');
+    const name = input.value.trim();
+
+    if (!name) {
+        showAlert("Please enter a player name!");
+        return;
+    }
+    if (name.length > 20) {
+        showAlert("Name must be 20 characters or less!");
+        return;
+    }
+    if (GameState.players.length >= 10) {
+        showAlert("Maximum 10 players allowed!");
+        return;
+    }
+    if (GameState.players.some(p => p.toLowerCase() === name.toLowerCase())) {
+        showAlert("This player is already in the squad!");
+        return;
+    }
+
+    GameState.players.push(name);
+    input.value = '';
+    hideAlert();
+    renderPlayerList();
+    updatePlayerCounter();
+    input.focus();
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Event Listeners - Setup
+$('add-player-btn').addEventListener('click', addPlayer);
+$('player-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        addPlayer();
+    }
+});
+
+$('kickoff-btn').addEventListener('click', () => {
+    if (GameState.players.length < 3) {
+        showAlert("You need at least 3 players to start!");
+        return;
+    }
+    startNewRound();
+});
+
+// ====================================================================
+//  START NEW ROUND
+// ====================================================================
+function startNewRound() {
+    // Pick impostor
+    GameState.impostorIndex = Math.floor(Math.random() * GameState.players.length);
+
+    // Pick secret footballer (no consecutive repeats)
+    GameState.secretFootballer = getNextFootballer();
+
+    // Reset reveal
+    GameState.currentRevealIndex = 0;
+    GameState.isCardRevealed = false;
+
+    // Pick first questioner (random, not the impostor for fun but any player is valid)
+    GameState.firstQuestioner = GameState.players[Math.floor(Math.random() * GameState.players.length)];
+
+    // Reset timer
+    GameState.timerSeconds = 180;
+    GameState.timerRunning = false;
+    if (GameState.timerInterval) {
+        clearInterval(GameState.timerInterval);
+        GameState.timerInterval = null;
+    }
+
+    // Reset vote
+    GameState.votedPlayer = "";
+
+    // Go to reveal screen
+    showRevealScreen();
+}
+
+// ====================================================================
+//  SCREEN 2: PASS & ROLE REVEAL
+// ====================================================================
+function showRevealScreen() {
+    showScreen('reveal');
+
+    $('pass-prompt').style.display = 'block';
+    $('role-card-container').style.display = 'none';
+    $('impostor-card').style.display = 'none';
+    $('squad-card').style.display = 'none';
+
+    $('current-player-name').textContent = GameState.players[GameState.currentRevealIndex];
+}
+
+$('reveal-btn').addEventListener('click', () => {
+    GameState.isCardRevealed = true;
+    $('pass-prompt').style.display = 'none';
+    $('role-card-container').style.display = 'block';
+
+    const isImpostor = GameState.currentRevealIndex === GameState.impostorIndex;
+
+    if (isImpostor) {
+        $('impostor-card').style.display = 'block';
+        $('squad-card').style.display = 'none';
+    } else {
+        $('squad-card').style.display = 'block';
+        $('impostor-card').style.display = 'none';
+        $('secret-footballer-display').textContent = GameState.secretFootballer;
+    }
+});
+
+function handleHideAndPass() {
+    GameState.currentRevealIndex++;
+    GameState.isCardRevealed = false;
+
+    if (GameState.currentRevealIndex >= GameState.players.length) {
+        // All players have seen their roles, go to discussion
+        showDiscussionScreen();
+    } else {
+        showRevealScreen();
+    }
+}
+
+$('hide-impostor-btn').addEventListener('click', handleHideAndPass);
+$('hide-squad-btn').addEventListener('click', handleHideAndPass);
+
+// ====================================================================
+//  SCREEN 3: DISCUSSION & TIMER
+// ====================================================================
+function showDiscussionScreen() {
+    showScreen('discussion');
+
+    $('first-questioner').textContent = GameState.firstQuestioner;
+
+    // Reset timer display
+    GameState.timerSeconds = 180;
+    GameState.timerRunning = false;
+    if (GameState.timerInterval) {
+        clearInterval(GameState.timerInterval);
+        GameState.timerInterval = null;
+    }
+    updateTimerDisplay();
+    $('timer-toggle-btn').innerHTML = '&#9654; START';
+}
+
+function updateTimerDisplay() {
+    const mins = Math.floor(GameState.timerSeconds / 60);
+    const secs = GameState.timerSeconds % 60;
+    const timeStr = `${mins}:${secs.toString().padStart(2, '0')}`;
+
+    $('timer-text').textContent = timeStr;
+
+    // Update progress ring
+    const total = 180;
+    const elapsed = total - GameState.timerSeconds;
+    const circumference = 2 * Math.PI * 90; // r=90
+    const offset = (elapsed / total) * circumference;
+    $('timer-progress').setAttribute('stroke-dashoffset', offset);
+
+    // Warning styling when < 30s
+    if (GameState.timerSeconds <= 30) {
+        $('timer-progress').setAttribute('stroke', 'url(#timer-gradient-warn)');
+        $('timer-text').setAttribute('fill', '#ff6666');
+    } else {
+        $('timer-progress').setAttribute('stroke', 'url(#timer-gradient)');
+        $('timer-text').setAttribute('fill', '#e5e7eb');
+    }
+}
+
+$('timer-toggle-btn').addEventListener('click', () => {
+    if (GameState.timerRunning) {
+        // Pause
+        clearInterval(GameState.timerInterval);
+        GameState.timerInterval = null;
+        GameState.timerRunning = false;
+        $('timer-toggle-btn').innerHTML = '&#9654; RESUME';
+    } else {
+        // Start / Resume
+        if (GameState.timerSeconds <= 0) return;
+        GameState.timerRunning = true;
+        $('timer-toggle-btn').innerHTML = '&#9208; PAUSE';
+
+        GameState.timerInterval = setInterval(() => {
+            GameState.timerSeconds--;
+            updateTimerDisplay();
+
+            if (GameState.timerSeconds <= 0) {
+                clearInterval(GameState.timerInterval);
+                GameState.timerInterval = null;
+                GameState.timerRunning = false;
+                $('timer-toggle-btn').innerHTML = '&#9654; START';
+                $('timer-text').textContent = "0:00";
+            }
+        }, 1000);
+    }
+});
+
+$('timer-reset-btn').addEventListener('click', () => {
+    clearInterval(GameState.timerInterval);
+    GameState.timerInterval = null;
+    GameState.timerRunning = false;
+    GameState.timerSeconds = 180;
+    updateTimerDisplay();
+    $('timer-toggle-btn').innerHTML = '&#9654; START';
+});
+
+$('start-voting-btn').addEventListener('click', () => {
+    // Stop timer if running
+    if (GameState.timerInterval) {
+        clearInterval(GameState.timerInterval);
+        GameState.timerInterval = null;
+        GameState.timerRunning = false;
+    }
+    showVotingScreen();
+});
+
+// ====================================================================
+//  SCREEN 4: VOTING
+// ====================================================================
+function showVotingScreen() {
+    showScreen('voting');
+
+    const grid = $('voting-grid');
+    grid.innerHTML = '';
+
+    GameState.players.forEach((name, idx) => {
+        const card = document.createElement('div');
+        card.className = 'vote-card animate-fade';
+        card.style.animationDelay = `${idx * 0.08}s`;
+        card.style.opacity = '0';
+        card.textContent = name;
+        card.addEventListener('click', () => {
+            castVote(name);
+        });
+        grid.appendChild(card);
+    });
+}
+
+function castVote(playerName) {
+    GameState.votedPlayer = playerName;
+    showResultScreen();
+}
+
+// ====================================================================
+//  SCREEN 5: RESULT
+// ====================================================================
+function showResultScreen() {
+    showScreen('result');
+
+    const impostorName = GameState.players[GameState.impostorIndex];
+    const caught = GameState.votedPlayer === impostorName;
+
+    $('reveal-impostor').textContent = impostorName;
+    $('reveal-footballer').textContent = GameState.secretFootballer;
+
+    const banner = $('result-banner');
+
+    if (caught) {
+        // Squad wins
+        banner.className = 'card card-glow-green text-center';
+        $('result-icon').textContent = '🏆';
+        $('result-title').textContent = 'SQUAD WINS!';
+        $('result-title').className = 'font-orbitron text-2xl font-black tracking-wider text-green-400 glow-text-green';
+        $('result-subtitle').textContent = 'The Impostor has been caught! Great detective work!';
+        launchConfetti();
+    } else {
+        // Impostor wins
+        banner.className = 'card card-glow-red text-center';
+        $('result-icon').textContent = '😈';
+        $('result-title').textContent = 'IMPOSTOR WINS!';
+        $('result-title').className = 'font-orbitron text-2xl font-black tracking-wider text-red-400 glow-text-red';
+        $('result-subtitle').textContent = `You voted for ${escapeHtml(GameState.votedPlayer)}, but they were innocent!`;
+    }
+}
+
+// Confetti effect
+function launchConfetti() {
+    const container = $('confetti-container');
+    container.innerHTML = '';
+    const colors = ['#00ff88', '#00ccff', '#ffd700', '#ff3366', '#aa55ff', '#ff8800'];
+
+    for (let i = 0; i < 60; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = `${Math.random() * 100}%`;
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = `${1.5 + Math.random() * 2}s`;
+        piece.style.animationDelay = `${Math.random() * 0.8}s`;
+        piece.style.width = `${6 + Math.random() * 8}px`;
+        piece.style.height = `${6 + Math.random() * 8}px`;
+        container.appendChild(piece);
+    }
+
+    setTimeout(() => { container.innerHTML = ''; }, 4000);
+}
+
+// Result action buttons
+$('next-round-btn').addEventListener('click', () => {
+    startNewRound();
+});
+
+$('back-to-squad-btn').addEventListener('click', () => {
+    // Stop any timer
+    if (GameState.timerInterval) {
+        clearInterval(GameState.timerInterval);
+        GameState.timerInterval = null;
+        GameState.timerRunning = false;
+    }
+    renderPlayerList();
+    updatePlayerCounter();
+    hideAlert();
+    showScreen('setup');
+});
+
+// ====================================================================
+//  INITIALIZATION
+// ====================================================================
+function init() {
+    // Shuffle DB on load
+    GameState.shuffledDB = fisherYatesShuffle(FOOTBALLERS_DB);
+    GameState.dbPointer = 0;
+    updatePlayerCounter();
+}
+
+init();
+</script>
+
+</body>
+</html>
